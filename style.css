@@ -1,94 +1,58 @@
-/* style.css */
+/* ───────────────────  NAVIGATION  ─────────────────── */
 
-/* Allgemeine Navigation */
 .main-nav {
   position: fixed;
-  top: 100px;
+  top: 100px;              /* unter dem Header */
   left: 0;
   right: 0;
   height: 60px;
   background: #333;
-  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 900;
+  z-index: 1000;
 }
 
-/* Container für Navigationspunkte */
-.main-nav > div {
-  display: flex;
-  gap: 20px;
-}
+.nav-inner        { display: flex; gap: 20px; align-items: center; }
 
-/* Navigationseinträge */
-.main-nav a {
+/* Oberpunkte */
+.nav-item a {
   color: #fff;
   text-decoration: none;
   padding: 10px 15px;
   display: block;
-  transition: background 0.3s;
+  transition: background .25s;
 }
 
-.main-nav a:hover {
-  background: #555;
-  border-radius: 4px;
-}
+.nav-item a:hover { background: #555; border-radius: 4px; }
 
-/* Dropdown Container */
-.dropdown {
-  position: relative;
-}
+/* Dropdown‑Container */
+.dropdown { position: relative; }
 
-/* Submenu (Dropdown) */
+/* Untermenü */
 .submenu {
-  display: none;
+  display: none;                 /* Standard: versteckt */
   position: absolute;
-  top: 100%;
+  top: 100%;                     /* unter dem Parent‑Link */
   left: 0;
+  min-width: 160px;
   background: #444;
+  box-shadow: 0 2px 6px rgba(0,0,0,.45);
   flex-direction: column;
-  min-width: 150px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  z-index: 1000;
 }
 
-/* Submenu-Links */
 .submenu a {
-  padding: 10px 15px;
   white-space: nowrap;
+  padding: 10px 15px;
 }
 
-/* Zeige Submenu bei Hover */
-.dropdown:hover .submenu {
-  display: flex;
-}
-/* Basisnavigation */
-.main-nav {
-  position: fixed;
-  top: 100px;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #333;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 900;
-}
-.nav-inner        { display:flex; gap:20px; }
-.nav-item a       { color:#fff; text-decoration:none; padding:10px 15px; display:block; }
-.nav-item a:hover { background:#555; border-radius:4px; }
+/* ─ Hover für Desktop ─ */
+.dropdown:hover > .submenu { display: flex; }
 
-/* Dropdown */
-.dropdown          { position:relative; }
-.submenu           { display:none; position:absolute; top:100%; left:0;
-                     background:#444; flex-direction:column;
-                     min-width:150px; box-shadow:0 2px 6px rgba(0,0,0,.5);}
-.submenu a         { padding:10px 15px; white-space:nowrap; }
+/* ─ Sichtbar, wenn per Klick geöffnet (Mobile) ─ */
+.submenu.open { display: flex; }
 
-/* Hover für Desktop */
-.dropdown:hover .submenu { display:flex; }
+/* Kleine kosmetische Markierung für aktiven Link (optional) */
+.submenu a:hover { background: #666; }
 
-/* Sichtbar wenn via Klick geöffnet (Mobile) */
-.submenu.open { display:flex; }
