@@ -1,39 +1,40 @@
-/* ───────────  NAVIGATION  ─────────── */
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AfD Stadtrat Pirmasens</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-.main-nav {
-  position: fixed;
-  top: 100px;                        /* unter dem Header */
-  left: 0; right: 0; height: 60px;
-  background: #333;
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000;
-}
+  <div id="header-container"></div>
+  <div id="nav-container"></div>
 
-.nav-inner        { display: flex; gap: 20px; }
-.nav-item a       { color: #fff; text-decoration: none;
-                    padding: 10px 15px; display: block;
-                    transition: background .25s; }
-.nav-item a:hover { background: #555; border-radius: 4px; }
+  <main>
+    <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
+    <p>Inhalt der Startseite ...</p>
+  </main>
 
-/* Dropdown‑Container */
-.dropdown { position: relative; }
+  <script>
+    async function loadFragment(file, targetId) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(targetId).innerHTML = html;
+    }
 
-/* Untermenü */
-.submenu {
-  display: none;                   /* Standard: versteckt */
-  position: absolute;
-  top: 100%; left: 0;
-  background: #444;
-  flex-direction: column;
-  min-width: 160px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.45);
-  z-index: 1000;
-}
-.submenu a        { padding: 10px 15px; white-space: nowrap; }
-.submenu a:hover  { background: #666; }
+    async function init() {
+      await loadFragment("header.html", "header-container");
+      await loadFragment("nav.html", "nav-container");
+      document.querySelectorAll(".dropdown-toggle").forEach(btn => {
+        btn.addEventListener("click", e => {
+          e.preventDefault();
+          btn.nextElementSibling.classList.toggle("open");
+        });
+      });
+    }
 
-/* Hover‑Variante (Desktop) */
-.dropdown:hover .submenu { display: flex; }
-
-/* Klick‑Variante (Mobile) */
-.submenu.open { display: flex; }
+    init();
+  </script>
+</body>
+</html>
