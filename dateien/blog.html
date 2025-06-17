@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog – AfD‑Fraktion Stadtrat Pirmasens</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Einfache Blog‑Typografie */
+    .blog-wrapper   { max-width: 900px; margin: 100px auto 60px; padding: 0 16px; }
+    .post-teaser    { cursor: pointer; border-bottom: 1px solid #ddd; padding: 16px 0; }
+    .post-teaser h3 { margin: 0 0 6px; color: #005599; }
+    .post-full      { display: none; padding: 16px 0; }
+    .post-full p    { margin-bottom: 1em; }
+    .back-link      { cursor:pointer; color:#005599; margin-bottom:24px; display:inline-block; }
+  </style>
+</head>
+<body>
+  <!-- Header + Navigation -->
+  <div id="header-container"></div>
+  <div id="nav-container"></div>
+
+  <main class="blog-wrapper">
+    <h2>Blog</h2>
+
+    <!-- TEASERLISTE -->
+    <div id="teaser-list">
+      <div class="post-teaser" data-post="einschulungen">
+        <h3>Einschulungen – Anfrage zu Nationalitäten</h3>
+        <p>Die AfD fragt nach den Nationalitäten der ABC‑Schützen in Pirmasens …</p>
+      </div>
+
+      <div class="post-teaser" data-post="parteitag">
+        <h3>Landesparteitag – Kandidat auf aussichtsreichem Listenplatz</h3>
+        <p>Erfolgreicher Parteitag: Ferdinand Weber erreicht Platz 19 …</p>
+      </div>
+    </div>
+
+    <!-- VOLLE POSTS (anfangs verborgen) -->
+    <article id="einschulungen" class="post-full">
+      <span class="back-link" data-back>← Zurück</span>
+      <h3>Einschulungen</h3>
+      <p><strong>Pirmasens, 22. August 2024 –</strong> Zum bevorstehenden Schulbeginn …</p>
+      <p>Gesamter Artikel‑Text …</p>
+    </article>
+
+    <article id="parteitag" class="post-full">
+      <span class="back-link" data-back>← Zurück</span>
+      <h3>Bericht zum Landesparteitag</h3>
+      <p>Der Landesparteitag der AfD Rheinland‑Pfalz …</p>
+      <p>Gesamter Artikel‑Text …</p>
+    </article>
+  </main>
+
+  <script>
+    /* Header & Nav laden */
+    Promise.all([
+      fetch('header.html').then(r=>r.text()).then(h=>{document.getElementById('header-container').innerHTML=h}),
+      fetch('nav.html').then(r=>r.text()).then(n=>{document.getElementById('nav-container').innerHTML=n})
+    ]);
+
+    /* Klicks auf Teaser → vollständigen Post anzeigen */
+    document.querySelectorAll('.post-teaser').forEach(teaser => {
+      teaser.addEventListener('click', () => {
+        const id = teaser.dataset.post;
+        document.getElementById('teaser-list').style.display = 'none';
+        document.querySelectorAll('.post-full').forEach(p => p.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    /* Zurück‑Link */
+    document.querySelectorAll('[data-back]').forEach(back => {
+      back.addEventListener('click', () => {
+        document.querySelectorAll('.post-full').forEach(p => p.style.display = 'none');
+        document.getElementById('teaser-list').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
