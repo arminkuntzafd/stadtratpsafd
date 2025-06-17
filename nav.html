@@ -1,0 +1,29 @@
+<!-- nav.html: Hauptnavigation mit div/a -->
+<nav class="main-nav" style="position:fixed;top:100px;left:0;right:0;height:60px;background:#333;color:#fff;display:flex;justify-content:center;align-items:center;z-index:900;">
+  <div style="display:flex;gap:20px;">
+    <div><a href="index.html" style="color:#fff;text-decoration:none;">Start</a></div>
+
+    <div class="dropdown" style="position:relative;">
+      <a href="#" style="color:#fff;text-decoration:none;">Fraktion ▾</a>
+      <div class="submenu" style="display:none;position:absolute;top:100%;left:0;background:#444;flex-direction:column;">
+        <a href="fraktion.html" style="color:#fff;padding:10px 15px;display:block;text-decoration:none;">Mitglieder</a>
+        <a href="ausschuesse.html" style="color:#fff;padding:10px 15px;display:block;text-decoration:none;">Ausschüsse</a>
+      </div>
+    </div>
+
+    <div><a href="blog.html" style="color:#fff;text-decoration:none;">Blog</a></div>
+    <div><a href="kontakt.html" style="color:#fff;text-decoration:none;">Kontakt</a></div>
+  </div>
+</nav>
+
+<!-- Dropdown Hover Script -->
+<script>
+  document.querySelectorAll('.dropdown').forEach(drop => {
+    drop.addEventListener('mouseenter', () => {
+      drop.querySelector('.submenu').style.display = 'flex';
+    });
+    drop.addEventListener('mouseleave', () => {
+      drop.querySelector('.submenu').style.display = 'none';
+    });
+  });
+</script>
