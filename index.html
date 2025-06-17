@@ -7,61 +7,77 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* Zeige standardmäßig keine Section */
+    /* Jede Section ist zunächst unsichtbar … */
     main section { display: none; }
-    /* Nur die aktive Section ist sichtbar */
+    /* … außer sie trägt die Klasse active */
     main section.active { display: block; }
   </style>
 </head>
 <body>
-  <!-- Header & Navigation werden hier dynamisch eingefügt -->
+  <!-- Header + Navigation werden dynamisch geladen -->
   <div id="header-container"></div>
   <div id="nav-container"></div>
 
-  <!-- Hauptinhalt: mehrere Sektionen -->
-  <main style="padding: 20px;">
-    <section id="home" class="active">
-      <h2>Willkommen bei der AfD‑Fraktion im Stadtrat Pirmasens</h2>
-      <p>Dies ist die Startseite der Fraktion.</p>
+  <main style="padding:20px;">
+    <!-- Startseite (sichtbar beim Laden) -->
+    <section id="start" class="page-section active">
+      <h2>Willkommen</h2>
+      <p>Dies ist die Startseite der AfD‑Fraktion im Stadtrat Pirmasens.</p>
     </section>
 
-    <section id="blog">
+    <!-- Fraktion (Mitglieder) -->
+    <section id="fraktion" class="page-section">
+      <h2>Fraktion – Mitglieder</h2>
+      <iframe src="https://afd-pirmasens-stadtrat.de/fraktion/" width="100%" height="800" style="border:none;"></iframe>
+    </section>
+
+    <!-- Ausschüsse -->
+    <section id="ausschuesse" class="page-section">
+      <h2>Ausschüsse</h2>
+      <iframe src="https://afd-pirmasens-stadtrat.de/aufsichtsrat/" width="100%" height="800" style="border:none;"></iframe>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="page-section">
       <h2>Blog</h2>
-      <p>Blog‑Inhalte folgen …</p>
+      <p>Blog‑Beiträge folgen …</p>
     </section>
 
-    <section id="kontakt">
+    <!-- Kontakt -->
+    <section id="kontakt" class="page-section">
       <h2>Kontakt</h2>
-      <p>Kontaktformular oder Infos …</p>
+      <p>E‑Mail: <a href="mailto:stadtrat@afd-pirmasens.de">stadtrat@afd-pirmasens.de</a></p>
     </section>
   </main>
 
-  <footer>&copy; <span id="year"></span> AfD‑Fraktion im Stadtrat Pirmasens</footer>
+  <footer style="padding:10px 20px;background:#005599;color:white;text-align:center;">
+    &copy; <span id="year"></span> AfD‑Fraktion im Stadtrat Pirmasens
+  </footer>
 
   <script>
-    /* Hilfsfunktion: Datei laden & einsetzen */
-    async function inject(file, target) {
+    /* Hilfsfunktion: Datei laden und in Container einsetzen */
+    const inject = async (file, targetId) => {
       const res  = await fetch(file);
       const html = await res.text();
-      document.getElementById(target).innerHTML = html;
-    }
+      document.getElementById(targetId).innerHTML = html;
+    };
 
-    /* Header + Nav einfügen und danach Events setzen */
+    /* Nach Laden von Header + Nav Event‑Handler setzen */
     Promise.all([
       inject('header.html', 'header-container'),
       inject('nav.html',    'nav-container')
     ]).then(initInteractions);
 
     function initInteractions() {
-      // Dropdown‑Klicks initialisieren
-      document.querySelectorAll('.dropdown-toggle')?.forEach(btn => {
+      /* Dropdown‑Menüs per Klick */
+      document.querySelectorAll('.dropdown-toggle').forEach(btn => {
         btn.addEventListener('click', e => {
           e.preventDefault();
           btn.nextElementSibling.classList.toggle('open');
         });
       });
 
-      // Interne Navigation auf Sections
+      /* Interne Section‑Navigation */
       document.querySelectorAll('[data-section]').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
@@ -70,14 +86,15 @@
       });
     }
 
+    /* Blendet nur die gewünschte Section ein */
     function showSection(id) {
-      document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-      window.scrollTo({ top: 0 });
+      document.querySelectorAll('.page-section').forEach(sec => {
+        sec.classList.toggle('active', sec.id === id);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* Jahr im Footer */
+    /* Footer‑Jahr aktualisieren */
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
