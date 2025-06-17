@@ -1,15 +1,13 @@
-<!-- header.html: Logo + Suchfeld (ohne Navigation) -->
 <!-- header.html -->
-<header class="main-header" style="background:#005599;color:white;padding:20px;text-align:center;">
-  <h1>AfD Stadtrat Pirmasens</h1>
-  <!-- Logo -->
-  <div class="logo">
-    <img src="Bilder/AfD.png" alt="AfD Logo" height="50">
+<header class="main-header">
+  <div class="header-inner">
+    <div class="logo">
+      <img src="logo.png" alt="AfD Logo" />
+    </div>
+    <div class="title">AfD im Stadtrat Pirmasens</div>
+    <div class="info-box">
+      <div id="date"></div>
+      <div id="weather">Wetter: --°C</div>
+    </div>
   </div>
-
-  <!-- Suchfeld -->
-  <form id="searchForm" class="search-box" style="display:flex;gap:5px;">
-    <input type="text" id="searchInput" placeholder="Suche …" style="padding:5px 8px;border-radius:5px;border:1px solid #ccc;" />
-    <button type="submit" style="padding:5px 10px;border:none;border-radius:5px;background:#007bff;color:#fff;cursor:pointer;">🔍</button>
-  </form>
 </header>
