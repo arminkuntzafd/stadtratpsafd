@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kontakt – AfD‑Fraktion Stadtrat Pirmasens</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .kontakt-wrapper { max-width: 700px; margin: 100px auto 60px; padding: 0 16px; }
+    form.kontakt-form { display:flex; flex-direction:column; gap:16px; }
+    form.kontakt-form input,
+    form.kontakt-form textarea {
+      padding: 10px 14px; font-size:1rem; border:1px solid #ccc; border-radius:4px;
+    }
+    form.kontakt-form button {
+      align-self: flex-start; background:#005599; color:#fff; border:none;
+      padding:10px 20px; font-size:1rem; border-radius:4px; cursor:pointer;
+    }
+    form.kontakt-form button:hover{ background:#003f77; }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <div id="header-container"></div>
+  <div id="nav-container"></div>
+
+  <main class="kontakt-wrapper">
+    <h2>Kontakt</h2>
+    <p>Schreiben Sie uns eine Nachricht – wir melden uns schnellstmöglich zurück.</p>
+
+    <form class="kontakt-form" action="mailto:kuntzarmin6@gmail.com" method="post" enctype="text/plain">
+      <input type="text"     name="name"    placeholder="Ihr Name" required>
+      <input type="email"    name="email"   placeholder="Ihre E‑Mail" required>
+      <input type="text"     name="betreff" placeholder="Betreff" required>
+      <textarea               name="nachricht" placeholder="Ihre Nachricht" rows="6" required></textarea>
+      <button type="submit">Nachricht senden</button>
+    </form>
+  </main>
+
+  <script>
+    /* Header + Nav nachladen */
+    Promise.all([
+      fetch('header.html').then(r=>r.text()).then(h=>{document.getElementById('header-container').innerHTML=h}),
+      fetch('nav.html').then(r=>r.text()).then(n=>{document.getElementById('nav-container').innerHTML=n})
+    ]);
+  </script>
+</body>
+</html>
