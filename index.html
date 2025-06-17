@@ -1,25 +1,36 @@
-<!-- header.html -->
-<header class="site-header">
-      <img src="Bilder/AfD.png" alt="AfD‑Logo" height="50">
-  </div>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AfD im Stadtrat Pirmasens</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-  <form id="searchForm" class="search-box">
-    <input type="text" id="searchInput" placeholder="Suche …">
-    <button type="submit">🔍</button>
-  </form>
+  <!-- Header einfügen -->
+  <div id="header-container"></div>
 
-  <nav class="main-nav">
-    <ul>
-      <li><a href="index.html">Start</a></li>
-      <li class="dropdown">
-        <a href="#">Fraktion ▾</a>
-        <ul class="submenu">
-          <li><a href="fraktion.html">Mitglieder</a></li>
-          <li><a href="ausschuesse.html">Ausschüsse</a></li>
-        </ul>
-      </li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="kontakt.html">Kontakt</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- Navigation einfügen -->
+  <div id="nav-container"></div>
+
+  <!-- Hauptinhalt -->
+  <main style="margin-top: 180px; padding: 20px;">
+    <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
+    <p>Dies ist die Startseite der Fraktion.</p>
+  </main>
+
+  <script>
+    // Lade externen Header
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => document.getElementById('header-container').innerHTML = data);
+
+    // Lade externe Navigation
+    fetch('nav.html')
+      .then(response => response.text())
+      .then(data => document.getElementById('nav-container').innerHTML = data);
+  </script>
+  
+</body>
+</html>
