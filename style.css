@@ -1,39 +1,62 @@
-/* ───────────  NAVIGATION  ─────────── */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
 
+/* Navigation */
 .main-nav {
-  position: fixed;
-  top: 100px;                        /* unter dem Header */
-  left: 0; right: 0; height: 60px;
+  display: flex;
   background: #333;
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.nav-inner        { display: flex; gap: 20px; }
-.nav-item a       { color: #fff; text-decoration: none;
-                    padding: 10px 15px; display: block;
-                    transition: background .25s; }
-.nav-item a:hover { background: #555; border-radius: 4px; }
+.nav-item {
+  position: relative;
+  margin-right: 20px;
+}
 
-/* Dropdown‑Container */
-.dropdown { position: relative; }
+.nav-item a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+}
 
-/* Untermenü */
-.submenu {
-  display: none;                   /* Standard: versteckt */
-  position: absolute;
-  top: 100%; left: 0;
+.nav-item a:hover {
   background: #444;
-  flex-direction: column;
-  min-width: 160px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.45);
-  z-index: 1000;
 }
-.submenu a        { padding: 10px 15px; white-space: nowrap; }
-.submenu a:hover  { background: #666; }
 
-/* Hover‑Variante (Desktop) */
-.dropdown:hover .submenu { display: flex; }
+/* Submenu */
+.submenu {
+  display: none;
+  position: absolute;
+  background: #444;
+  top: 100%;
+  left: 0;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 10;
+  flex-direction: column;
+}
 
-/* Klick‑Variante (Mobile) */
-.submenu.open { display: flex; }
+.submenu a {
+  padding: 10px;
+}
+
+.submenu a:hover {
+  background: #666;
+}
+
+/* Hover (Desktop) */
+.dropdown:hover .submenu {
+  display: flex;
+}
+
+/* Klick (Mobile) */
+.submenu.open {
+  display: flex;
+  flex-direction: column;
+}
