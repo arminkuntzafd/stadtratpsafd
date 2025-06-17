@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AfD im Stadtrat Pirmasens</title>
+  <meta charset="utf-8" />
+  <meta nameaviewport" content="width=device-width, initial-scale=1" />
+  <title>AfD‑Fraktion im Stadtrat Pirmasens</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Header einfügen -->
+  <!-- Header & Navigation werden hier dynamisch eingefügt -->
   <div id="header-container"></div>
-
-  <!-- Navigation einfügen -->
   <div id="nav-container"></div>
 
   <!-- Hauptinhalt -->
   <main style="margin-top: 180px; padding: 20px;">
-    <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
+    <h1>Willkommen bei der AfD‑Fraktion im Stadtrat Pirmasens</h1>
     <p>Dies ist die Startseite der Fraktion.</p>
   </main>
 
+  <footer>&copy; <span id="year"></span> AfD‑Fraktion im Stadtrat Pirmasens</footer>
+
   <script>
-    // Lade externen Header
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('header-container').innerHTML = data);
+    /* Hilfsfunktion: Datei laden und in Ziel‑Element einfügen */
+    async function injectHTML(file, targetId) {
+      try {
+        const res = await fetch(file);
+        if (!res.ok) throw new Error(`${file} nicht gefunden (Status ${res.status})`);
+        const html = await res.text();
+        document.getElementById(targetId).innerHTML = html;
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-    // Lade externe Navigation
-    fetch('nav.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('nav-container').innerHTML = data);
+    /* Header & Nav einbinden und danach Dropdown‑Klicks initialisieren */
+    Promise.all([
+      injectHTML('header.html', 'header-container'),
+      injectHTML('nav.html',    'nav-container')
+    ]).then(initDropdownClicks);
 
- <script>
-  // Header und Nav laden
-  Promise.all([
-    fetch('header.html').then(r=>r.text()),
-    fetch('nav.html').then(r=>r.text())
-  ]).then(([headerHTML, navHTML])=>{
-    document.getElementById('header-container').innerHTML = headerHTML;
-    document.getElementById('nav-container').innerHTML    = navHTML;
-    initDropdownClicks();          // <── nach dem Einfügen initialisieren
-  });
-
-  // Klick‑Toggle für Dropdowns
-  function initDropdownClicks(){
-    document.querySelectorAll('.dropdown-toggle').forEach(btn=>{
-      btn.addEventListener('click', e=>{
-        e.preventDefault();
-        const menu = btn.nextElementSibling;   // .submenu
-        menu.classList.toggle('open');
+    /* Dropdown per Klick sichtbar machen */
+    function initDropdownClicks() {
+      document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          const menu = btn.nextElementSibling; // .submenu
+          if (menu) menu.classList.toggle('open');
+        });
       });
-    });
-  }
+    }
 
-  // Jahr im Footer
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
- 
-  
+    /* Jahr im Footer aktualisieren */
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-  
 </body>
 </html>
