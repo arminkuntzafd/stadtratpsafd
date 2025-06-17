@@ -1,56 +1,39 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta nameaviewport" content="width=device-width, initial-scale=1" />
-  <title>AfD‑Fraktion im Stadtrat Pirmasens</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- Header & Navigation werden hier dynamisch eingefügt -->
-  <div id="header-container"></div>
-  <div id="nav-container"></div>
+/* ───────────  NAVIGATION  ─────────── */
 
-  <!-- Hauptinhalt -->
-  <main style="margin-top: 180px; padding: 20px;">
-    <h1>Willkommen bei der AfD‑Fraktion im Stadtrat Pirmasens</h1>
-    <p>Dies ist die Startseite der Fraktion.</p>
-  </main>
+.main-nav {
+  position: fixed;
+  top: 100px;                        /* unter dem Header */
+  left: 0; right: 0; height: 60px;
+  background: #333;
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+}
 
-  <footer>&copy; <span id="year"></span> AfD‑Fraktion im Stadtrat Pirmasens</footer>
+.nav-inner        { display: flex; gap: 20px; }
+.nav-item a       { color: #fff; text-decoration: none;
+                    padding: 10px 15px; display: block;
+                    transition: background .25s; }
+.nav-item a:hover { background: #555; border-radius: 4px; }
 
-  <script>
-    /* Hilfsfunktion: Datei laden und in Ziel‑Element einfügen */
-    async function injectHTML(file, targetId) {
-      try {
-        const res = await fetch(file);
-        if (!res.ok) throw new Error(`${file} nicht gefunden (Status ${res.status})`);
-        const html = await res.text();
-        document.getElementById(targetId).innerHTML = html;
-      } catch (err) {
-        console.error(err);
-      }
-    }
+/* Dropdown‑Container */
+.dropdown { position: relative; }
 
-    /* Header & Nav einbinden und danach Dropdown‑Klicks initialisieren */
-    Promise.all([
-      injectHTML('header.html', 'header-container'),
-      injectHTML('nav.html',    'nav-container')
-    ]).then(initDropdownClicks);
+/* Untermenü */
+.submenu {
+  display: none;                   /* Standard: versteckt */
+  position: absolute;
+  top: 100%; left: 0;
+  background: #444;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.45);
+  z-index: 1000;
+}
+.submenu a        { padding: 10px 15px; white-space: nowrap; }
+.submenu a:hover  { background: #666; }
 
-    /* Dropdown per Klick sichtbar machen */
-    function initDropdownClicks() {
-      document.querySelectorAll('.dropdown-toggle').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          const menu = btn.nextElementSibling; // .submenu
-          if (menu) menu.classList.toggle('open');
-        });
-      });
-    }
+/* Hover‑Variante (Desktop) */
+.dropdown:hover .submenu { display: flex; }
 
-    /* Jahr im Footer aktualisieren */
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+/* Klick‑Variante (Mobile) */
+.submenu.open { display: flex; }
