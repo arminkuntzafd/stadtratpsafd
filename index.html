@@ -30,6 +30,34 @@
     fetch('nav.html')
       .then(response => response.text())
       .then(data => document.getElementById('nav-container').innerHTML = data);
+
+ <script>
+  // Header und Nav laden
+  Promise.all([
+    fetch('header.html').then(r=>r.text()),
+    fetch('nav.html').then(r=>r.text())
+  ]).then(([headerHTML, navHTML])=>{
+    document.getElementById('header-container').innerHTML = headerHTML;
+    document.getElementById('nav-container').innerHTML    = navHTML;
+    initDropdownClicks();          // <── nach dem Einfügen initialisieren
+  });
+
+  // Klick‑Toggle für Dropdowns
+  function initDropdownClicks(){
+    document.querySelectorAll('.dropdown-toggle').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        e.preventDefault();
+        const menu = btn.nextElementSibling;   // .submenu
+        menu.classList.toggle('open');
+      });
+    });
+  }
+
+  // Jahr im Footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+ 
+  
   </script>
   
 </body>
