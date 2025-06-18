@@ -90,3 +90,75 @@ body {
 .dropdown:focus-within .submenu {
   display: flex;
 }
+
+.main-nav {
+  background: #005599;
+  color: white;
+  font-family: Arial, sans-serif;
+  user-select: none;
+}
+
+.main-nav .nav-inner {
+  display: flex;
+  gap: 10px;          /* Abstand zwischen Hauptlinks */
+  padding: 5px 10px;  /* Weniger Innenabstand */
+  flex-wrap: wrap;    /* Zeilenumbruch wenn nötig */
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.main-nav .nav-link,
+.main-nav .nav-link > a {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: 6px 8px;  /* Kleinere Paddings für kompaktes Layout */
+  font-size: 14px;   /* Etwas kleinere Schrift */
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.main-nav .nav-link:hover,
+.main-nav .nav-link > a:hover {
+  background-color: #004080;
+  border-radius: 3px;
+}
+
+/* Dropdown-Grundstruktur */
+.main-nav .dropdown {
+  position: relative;
+}
+
+.main-nav .dropdown-toggle::after {
+  content: " ▾";
+  font-size: 12px;
+}
+
+.main-nav .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #004080;
+  border-radius: 3px;
+  display: none;
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+  padding: 5px 0;
+}
+
+.main-nav .submenu a {
+  display: block;
+  padding: 5px 10px;
+  font-size: 13px;
+  color: white;
+}
+
+.main-nav .submenu a:hover {
+  background-color: #003060;
+}
+
+/* Offen wenn .open Klasse da ist */
+.main-nav .submenu.open {
+  display: block;
+}
