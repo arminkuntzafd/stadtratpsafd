@@ -1,56 +1,15 @@
-/* Reset & Grundstruktur */
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #222;
 }
 
-/* HEADER */
-.main-header {
-  background: #005599; /* AfD-Blau */
-  color: white;
-  padding: 10px 20px;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo img {
-  height: 50px;
-}
-
-.title {
-  font-size: 1.8em;
-  font-weight: bold;
-  text-align: center;
-  flex: 1;
-}
-
-.info-box {
-  text-align: right;
-  min-width: 150px;
-  font-size: 0.9em;
-  line-height: 1.2em;
-}
-
-/* NAVIGATION */
 .main-nav {
   background: #005599;
   color: white;
-  font-family: Arial, sans-serif;
-  user-select: none;
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 60px;
+  height: 48px;               /* kompakte Höhe */
   display: flex;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -58,44 +17,46 @@ body {
 
 .nav-inner {
   display: flex;
-  gap: 10px;
-  padding: 0 15px;
+  gap: 8px;                  /* sehr kleine Abstände zwischen Links */
+  padding: 0 10px;           /* wenig horizontaler Innenabstand */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;         /* keine Umbrüche */
   justify-content: flex-start;
 }
 
 .nav-link {
   position: relative;
-  display: inline-block;
 }
 
 .nav-link > a {
   display: inline-block;
   color: white;
   text-decoration: none;
-  padding: 8px 12px;
-  font-size: 14px;
+  padding: 6px 8px;          /* sehr kompakte Polsterung */
+  font-size: 13px;
+  line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 2px;
   transition: background-color 0.3s ease;
+  margin: 0;                 /* kein zusätzlicher Außenabstand */
 }
 
 .nav-link > a:hover {
   background-color: #004080;
 }
 
-/* Dropdown Pfeil */
+/* Dropdown-Pfeil */
 .dropdown-toggle::after {
   content: " ▾";
-  font-size: 12px;
+  font-size: 10px;
+  margin-left: 4px;
 }
 
-/* Dropdown Menü */
+/* Dropdown-Menü */
 .submenu {
   display: none;
   position: absolute;
@@ -106,18 +67,17 @@ body {
   min-width: 140px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   flex-direction: column;
-  padding: 5px 0;
+  padding: 4px 0;
   z-index: 1001;
 }
 
 .submenu a {
   display: block;
-  padding: 8px 15px;
+  padding: 6px 12px;
+  font-size: 13px;
   color: white;
   text-decoration: none;
-  font-size: 13px;
   white-space: nowrap;
-  transition: background-color 0.3s ease;
 }
 
 .submenu a:hover {
@@ -125,38 +85,15 @@ body {
 }
 
 /* Dropdown öffnen */
-.submenu.open {
-  display: flex;
-}
-
-/* Für Fokus und Hover Dropdown anzeigen */
+.submenu.open,
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu {
   display: flex;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .main-nav {
-    height: auto;
-    padding: 10px 0;
-  }
-  .nav-inner {
-    justify-content: center;
-    gap: 5px;
-  }
-  .nav-link > a {
-    padding: 6px 8px;
-    font-size: 13px;
-  }
-  .submenu {
-    position: static;
-    box-shadow: none;
-    border-radius: 0;
-    background: #005599;
-    padding: 0;
-  }
-  .submenu a {
-    padding: 10px 15px;
-  }
+/* Optional: fix für margin oder padding außerhalb */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
