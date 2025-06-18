@@ -14,8 +14,7 @@ main section.active { display:block; }
   background: #005599;
   color: white;
   padding: 0;
-  position: sticky;
-  top: 0;
+    top: 0;
   z-index: 1000;
 }
 
