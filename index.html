@@ -128,7 +128,21 @@
     }
     updateDateTime();
     setInterval(updateDateTime,60_000);
-  });
+  
+async function updateWeather() {
+  try {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=49.201&longitude=7.605&current=temperature_2m');
+    const data = await res.json();
+    const temp = data.current.temperature_2m;
+    document.getElementById('weather').textContent = `Wetter: ${temp} °C`;
+  } catch (error) {
+    console.error('Wetterdaten konnten nicht geladen werden:', error);
+    document.getElementById('weather').textContent = 'Wetter: -- °C';
+  }
+}
+    
+    
+    });
   </script>
 </body>
 </html>
