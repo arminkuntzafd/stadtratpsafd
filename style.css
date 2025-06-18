@@ -3,6 +3,12 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* Versteckt alle Sections */
+main section { display:none; }
+
+/* Die aktuell gewählte Section zeigt sich */
+main section.active { display:block; }
+
 .main-nav {
   background: #333;
   color: #fff;
