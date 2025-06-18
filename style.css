@@ -1,322 +1,92 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
+/* ────────── Reset & Grundlayout ────────── */
+*       { margin: 0; padding: 0; box-sizing: border-box; }
+body    { font-family: Arial, sans-serif; line-height: 1.6; }
 
-/* Versteckt alle Sections *//* ────────── Grundlayout & Reset ────────── */
-*      { box-sizing: border-box; margin: 0; padding: 0; }
-body   { font-family: Arial, sans-serif; line-height: 1.6; }
-
-/* Variablen für feste Höhen */
+/* ────────── Konstante Höhen an einer Stelle pflegen ────────── */
 :root{
-  --header-h: 0px;   /* fixe Header‑Höhe, 0 wenn Header nicht fixiert */
-  --nav-h:    60px;  /* Höhe der Navigationsleiste */
+  --header-h: 0px;   /* >0 setzen, falls Header fixiert werden soll        */
+  --nav-h:    60px;  /* Höhe der Navigationsleiste                        */
 }
 
-/* Platz für fixe Leisten schaffen */
-body{
-  padding-top: calc(var(--header-h) + var(--nav-h));
-}
+/* Platz für fixierte Leisten oben schaffen */
+body{ padding-top: calc(var(--header-h) + var(--nav-h)); }
 
-/* ────────── Section‑Logik (Single‑Page) ────────── */
-main section          { display: none; }
-main section.active   { display: block; }
+/* ────────── SECTION-LOGIK ────────── */
+main section        { display: none; }
+main section.active { display: block; }
 
-/* ────────── Fixierte Navigation ────────── */
+/* ────────── NAVIGATION (fixiert) ────────── */
 nav.main-nav{
-  position: fixed !important;      /* zwingend fixiert */
-  top: var(--header-h);            /* direkt unter evtl. fixem Header */
-  left: 0;
-  right: 0;
+  position: fixed !important;
+  top: var(--header-h);
+  left: 0; right: 0;
   height: var(--nav-h);
   background: #005599;
-  z-index: 3000;
+  color: #fff;
   display: flex;
   align-items: center;
   padding: 0 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.25);
-  color: #fff;
-}
-
-/* Inhalt der Nav */
-.nav-inner{
-  display: flex;
   gap: 15px;
-  align-items: center;
+  z-index: 3000;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
 }
 
-/* Hauptlinks & Dropdown‑Trigger */
+/* Links & Dropdown-Trigger */
 .nav-link,
 .dropdown-toggle{
   color: #fff;
   text-decoration: none;
-  padding: 0 12px;
   font-size: 14px;
+  padding: 0 12px;
   line-height: var(--nav-h);
   cursor: pointer;
   white-space: nowrap;
   border-radius: 3px;
 }
 .nav-link:hover,
-.dropdown-toggle:hover{
-  background:#004080;
-}
+.dropdown-toggle:hover{ background:#004080; }
 
-/* ────────── Dropdown ────────── */
-.dropdown{ position: relative; }
+/* ────────── DROPDOWN ────────── */
+.dropdown      { position: relative; }
 .dropdown-toggle::after{ content:" ▾"; font-size:11px; }
 
 .submenu{
   position: absolute;
   top: 100%; left: 0;
-  background:#004080;
   display: none;
   flex-direction: column;
   min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,.3);
+  background:#004080;
   border-radius: 3px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.3);
   z-index: 3100;
 }
 .submenu a{
   color:#fff;
   text-decoration:none;
   padding: 10px 15px;
-  font-size:13px;
+  font-size: 13px;
   white-space: nowrap;
 }
 .submenu a:hover{ background:#003060; }
 
-/* Dropdown sichtbar bei Hover oder offener Klasse */
+/* Dropdown sichtbar bei Hover, Fokus oder .open */
 .dropdown:hover .submenu,
 .dropdown:focus-within .submenu,
-.submenu.open{
-  display:flex;
-}
+.submenu.open{ display:flex; }
 
-/* ────────── Header (optional fixierbar) ────────── */
+/* ────────── (OPTIONAL) FIXIERBARER HEADER ────────── */
 .main-header{
   background:#005599;
   color:#fff;
   padding:10px 20px;
-  /* Wenn Header fixiert sein soll, einfach einkommentieren:
+  /* Header fixieren?  →  entkommentieren und --header-h anpassen
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top:0; left:0; right:0;
   z-index: 3100;
   */
 }
-.header-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.logo img{ height:50px; }
-.title{ font-size:1.8em; font-weight:bold; flex:1; text-align:center; }
-.info-box{ font-size:0.9em; line-height:1.2em; text-align:right; min-width:150px; }
-
-main section { display:none; }
-
-/* Die aktuell gewählte Section zeigt sich */
-main section.active { display:block; }
-
-/* Basis-Navigation */
-.main-nav {
-  background: #005599;
-  color: white;
-  padding: 0;
-    top: 0;
-  z-index: 1000;
-}
-
-nav.main-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #005599;
-  z-index: 1000;
-  display: flex;
-  justify-content: flex-start;
-  padding: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Damit der Content nicht unter dem fixierten Nav verschwindet */
-body {
-  padding-top: 60px; /* je nach Höhe deiner Nav anpassen */
-}
-
-
-.nav-inner {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  padding: 0 15px;
-}
-
-/* Hauptlink */
-.nav-link {
-  position: relative;
-}
-
-.nav-link > a,
-.dropdown-toggle {
-  display: inline-block;
-  color: white;
-  text-decoration: none;
-  padding: 15px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-/* Dropdown-Menü */
-.submenu {
-  position: absolute;
-  top: 100%; /* Direkt unter dem Nav-Element */
-  left: 0;
-  background: #004080;
-  display: none;
-  flex-direction: column;
-  min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  z-index: 1001;
-}
-
-/* Submenü Links */
-.submenu a {
-  padding: 10px 15px;
-  color: white;
-  text-decoration: none;
-  display: block;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.submenu a:hover {
-  background: #003060;
-}
-
-/* Hover funktioniert stabil */
-.dropdown:hover .submenu,
-.dropdown:focus-within .submenu {
-  display: flex;
-}
-
-
-.main-header {
-  background: #005599; /* kräftiges AfD-Blau */
-  color: white;
-  padding: 10px 20px;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo img {
-  height: 50px;
-}
-
-.title {
-  font-size: 1.8em;
-  text-align: center;
-  flex: 1;
-  font-weight: bold;
-}
-
-.info-box {
-  text-align: right;
-  min-width: 150px;
-  font-size: 0.9em;
-  line-height: 1.2em;
-}
-
-
-
-.submenu {
-  display: none;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  background: #444;
-  min-width: 160px;
-  z-index: 1001;
-  flex-direction: column;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.submenu a {
-  padding: 10px;
-  color: white;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown:hover .submenu {
-  display: flex;
-}
-
-/* Optional: show submenu on click for mobile */
-.dropdown:focus-within .submenu {
-  display: flex;
-}
-/* GANZ AM ENDE von style.css einfügen  ─  oder nach allen anderen Nav‑Regeln */
-nav.main-nav{
-  position: fixed !important;   /*  !important = überstimmt frühere Angaben   */
-  top: 0;
-  left: 0;
-  right: 0;                     /* volle Breite */
-  height: 60px;                 /* deine tatsächliche Nav‑Höhe */
-  z-index: 2000;                /* sicher über Content & Header */
-  background: #005599;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.25);
-}
-
-/* Damit der Seiteninhalt nicht unter die fixe Nav rutscht */
-body{
-  padding-top: 60px;            /* exakt dieselbe Höhe wie oben */
-}
-/* fixiere den Container selbst */
-#nav-container{
-  position: fixed;      /* bleibt am Viewport */
-  top: 60px;            /* direkt UNTER deinem Header (Header‑Höhe anpassen) */
-  left: 0;
-  width: 100%;
-  z-index: 2000;        /* über Content, unter Modals */
-}
-
-/* falls Header ebenfalls fixiert ist ‑ sonst top:0 setzen */
-
-/* fixiere den Container selbst */
-#nav-container{
-  position: fixed;      /* bleibt am Viewport */
-  top: 60px;            /* direkt UNTER deinem Header (Header‑Höhe anpassen) */
-  left: 0;
-  width: 100%;
-  z-index: 2000;        /* über Content, unter Modals */
-}
-
-body{
-  padding-top: calc(60px + 48px);  /* Header‑Höhe + Nav‑Höhe */
-}
-
-nav.main-nav {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;                /* Höhe der Nav-Leiste */
-  z-index: 3000;               /* Über allem */
-  background: #005599;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.25);
-}
+.header-inner{ display:flex; align-items:center; justify-content:space-between; }
+.logo img    { height:50px; }
+.title       { font-size:1.8em; font-weight:bold; flex:1; text-align:center; }
+.info-box    { font-size:0.9em; line-height:1.2em; min-width:150px; text-align:right; }
