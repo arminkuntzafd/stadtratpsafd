@@ -1,56 +1,115 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AfD Stadtrat Pirmasens</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AfD‑Fraktion im Stadtrat Pirmasens</title>
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* --- Layout --------------------------------------------------------- */
+    :root {
+      --header-h: 100px;   /* Höhe Header  */
+      --nav-h:    60px;    /* Höhe Nav     */
+    }
+    html,body { margin:0; padding:0; }
+
+    /* Header oben fixieren */
+    #header-container {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      z-index: 1000;
+    }
+
+    /* Navigation direkt darunter fixieren */
+    #nav-container {
+      position: fixed;
+      top: var(--header-h);
+      left:0; right:0;
+      height: var(--nav-h);
+      z-index: 999;
+    }
+
+    /* Platz schaffen, damit Inhalt nicht unter Header+Nav verschwindet */
+    main {
+      padding: 20px;
+      padding-top: calc(var(--header-h) + var(--nav-h) + 20px);
+    }
+
+    /* --- Section‑Sichtbarkeit ------------------------------------------ */
+    main section { display:none; }          /* standardmäßig verstecken */
+    main section.active { display:block; }  /* nur .active wird gezeigt */
+  </style>
 </head>
 <body>
 
+  <!-- Fragmente werden hier eingesetzt -->
   <div id="header-container"></div>
   <div id="nav-container"></div>
 
   <main>
-    <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
-    <p>Inhalt der Startseite ...</p>
+    <!-- Startseite (beim Laden sichtbar) -->
+    <section id="start" class="active">
+      <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
+      <p>Inhalt der Startseite …</p>
+    </section>
+
+    <!-- Beispiel‑Section: Fraktion -->
+    <section id="fraktion">
+      <iframe src="https://afd-pirmasens-stadtrat.de/fraktion/"
+              width="100%" height="800" style="border:none;"></iframe>
+    </section>
+
+    <!-- Weitere Sections analog anlegen … -->
   </main>
 
-<main style="padding:20px;">
-  <!-- Kurzinfo auf der Startseite ... -->
+  <footer style="padding:10px 20px;background:#005599;color:#fff;text-align:center;">
+    &copy; <span id="year"></span> AfD‑Fraktion im Stadtrat Pirmasens
+  </footer>
 
-  <section id="fraktion" style="margin-top:40px;">
-     <iframe
-      src="https://afd-pirmasens-stadtrat.de/fraktion/"
-      width="100%"
-      height="800"
-      style="border:none;">
-    </iframe>
-  </section>
-  
-</main>
-
-
-  
   <script>
-    async function loadFragment(file, targetId) {
+    /* Fragment‑Loader */
+    const inject = async (file, id) => {
       const res = await fetch(file);
-      const html = await res.text();
-      document.getElementById(targetId).innerHTML = html;
-    }
+      document.getElementById(id).innerHTML = await res.text();
+    };
 
-    async function init() {
-      await loadFragment("header.html", "header-container");
-      await loadFragment("nav.html", "nav-container");
-      document.querySelectorAll(".dropdown-toggle").forEach(btn => {
-        btn.addEventListener("click", e => {
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      /* Header + Nav einfügen */
+      await Promise.all([
+        inject('header.html', 'header-container'),
+        inject('nav.html',    'nav-container')
+      ]);
+
+      /* Delegierter Click‑Handler */
+      document.body.addEventListener('click', e => {
+        /* Dropdown‑Menü umschalten */
+        const toggle = e.target.closest('.dropdown-toggle');
+        if (toggle) {
           e.preventDefault();
-          btn.nextElementSibling.classList.toggle("open");
-        });
+          toggle.nextElementSibling?.classList.toggle('open');
+          return;
+        }
+        /* Internal‑Link (data-section) */
+        const link = e.target.closest('[data-section]');
+        if (link) {
+          e.preventDefault();
+          activateSection(link.dataset.section);
+        }
       });
-    }
 
-    init();
+      /* Footer‑Jahr */
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    /* Section‑Umschalter */
+    function activateSection(id) {
+      document.querySelectorAll('main section')
+              .forEach(sec => sec.classList.toggle('active', sec.id === id));
+      window.scrollTo({ top:0, behavior:'smooth' });
+    }
   </script>
 </body>
 </html>
