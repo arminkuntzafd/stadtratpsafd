@@ -25,7 +25,7 @@
 </nav>
 
 <script>
-  // Dropdown Toggle
+  // Dropdown Toggle per Klick
   document.querySelectorAll('.dropdown-toggle').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
@@ -34,11 +34,20 @@
     });
   });
 
-  // Optional: Klick außerhalb schließt das Menü
+  // Klick außerhalb schließt das Menü
   document.addEventListener('click', e => {
-    if (!e.target.closest('.dropdown-toggle')) {
+    if (!e.target.closest('.dropdown-toggle') && !e.target.closest('.submenu')) {
       document.querySelectorAll('.submenu').forEach(sm => sm.style.display = 'none');
     }
+  });
+
+  // Optional: Hover anzeigen
+  const dropdown = document.querySelector('div[style*="position:relative"]');
+  dropdown.addEventListener('mouseenter', () => {
+    dropdown.querySelector('.submenu').style.display = 'block';
+  });
+  dropdown.addEventListener('mouseleave', () => {
+    dropdown.querySelector('.submenu').style.display = 'none';
   });
 
   // Navigation Section Wechsel (optional)
