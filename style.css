@@ -56,9 +56,9 @@ body {
 
 .info-box {
   text-align: right;
-  min-width: 150px;
-  font-size: 0.9em;
   line-height: 1.2em;
+  min-width: 140px;      /* damit nichts umbricht */
+  font-size: 0.9em;
 }
 
 
