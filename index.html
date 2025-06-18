@@ -49,100 +49,77 @@
   </footer>
 
   <script>
-    /* Hilfsfunktion: Datei laden und in Container einsetzen */
-    const inject = async (file, targetId) => {
-      const res  = await fetch(file);
-      const html = await res.text();
-      document.getElementById(targetId).innerHTML = html;
-    };
+/* 1. HTML‑Fragmente laden */
+const inject = async (file, id) => {
+  const res = await fetch(file);
+  if (!res.ok) throw new Error(file + ' nicht gefunden');
+  document.getElementById(id).innerHTML = await res.text();
+};
 
-    /* Nach Laden von Header + Nav Event‑Handler setzen */
-    Promise.all([
-      inject('header.html', 'header-container'),
-      inject('nav.html',    'nav-container')
-    ]).then(initInteractions);
+/* 2. Wenn DOM bereit ist … */
+document.addEventListener('DOMContentLoaded', async () => {
 
-    function initInteractions() {
-      /* Dropdown‑Menüs per Klick */
-      document.querySelectorAll('.dropdown-toggle').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          btn.nextElementSibling.classList.toggle('open');
-        });
-      });
+  /* a) Header + Nav einfügen */
+  await Promise.all([
+    inject('header.html', 'header-container'),
+    inject('nav.html',    'nav-container')
+  ]);
 
-      /* Interne Section‑Navigation */
-      document.querySelectorAll('[data-section]').forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          showSection(link.dataset.section);
-        });
-      });
-    }
-
-    /* Blendet nur die gewünschte Section ein */
-    function showSection(id) {
-      document.querySelectorAll('.page-section').forEach(sec => {
-        sec.classList.toggle('active', sec.id === id);
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* Footer‑Jahr aktualisieren */
-    document.getElementById('year').textContent = new Date().getFullYear();
-  
-
-  document.addEventListener("DOMContentLoaded", () => {
-    // Klick auf Nav-Links mit data-section
-    document.body.addEventListener("click", e => {
-      const link = e.target.closest("a[data-section]");
-      if (!link) return;
-
+  /* b) Section‑Navigation + Dropdown (delegierter Click) */
+  document.body.addEventListener('click', e => {
+    const toggle = e.target.closest('.dropdown-toggle');
+    if (toggle) {                       // Dropdown
       e.preventDefault();
-      const sectionId = link.dataset.section;
-      document.querySelectorAll("main section").forEach(s => {
-        s.style.display = (s.id === sectionId) ? "block" : "none";
-      });
-    });
-
-    // Start-Ansicht initial anzeigen
-    const start = document.querySelector("main section#start");
-    if (start) start.style.display = "block";
-  });
-   /* Jetzt erst Datum/Uhrzeit initialisieren */
-    const datumEl  = document.getElementById('datum');
-    const uhrEl    = document.getElementById('uhrzeit');
-
-    function updateDateTime(){
-      const d    = new Date();
-      const wd   = ['Sonntag','Montag','Dienstag','Mittwoch',
-                    'Donnerstag','Freitag','Samstag'][d.getDay()];
-      const tag  = String(d.getDate()).padStart(2,'0');
-      const mon  = String(d.getMonth()+1).padStart(2,'0');
-      const yr   = d.getFullYear();
-      datumEl.textContent = `${wd}, ${tag}.${mon}.${yr}`;
-
-      const hh = String(d.getHours()).padStart(2,'0');
-      const mm = String(d.getMinutes()).padStart(2,'0');
-      uhrEl.textContent   = `${hh}:${mm}`;
+      toggle.nextElementSibling?.classList.toggle('open');
+      return;
     }
-    updateDateTime();
-    setInterval(updateDateTime,60_000);
-  
-async function updateWeather() {
-  try {
-    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=49.201&longitude=7.605&current=temperature_2m');
-    const data = await res.json();
-    const temp = data.current.temperature_2m;
-    document.getElementById('weather').textContent = `Wetter: ${temp} °C`;
-  } catch (error) {
-    console.error('Wetterdaten konnten nicht geladen werden:', error);
-    document.getElementById('weather').textContent = 'Wetter: -- °C';
+
+    const link = e.target.closest('[data-section]');
+    if (link) {                         // interne Section
+      e.preventDefault();
+      showSection(link.dataset.section);
+    }
+  });
+
+  function showSection(id){
+    document.querySelectorAll('.page-section')
+            .forEach(s => s.classList.toggle('active', s.id === id));
+    window.scrollTo({top:0,behavior:'smooth'});
   }
-}
-    
-    
-    });
-  </script>
+
+  /* c) Datum + Uhrzeit */
+  const datumEl = document.getElementById('datum');
+  const uhrEl   = document.getElementById('uhrzeit');
+
+  const updateDateTime = () => {
+    const d  = new Date();
+    const wd = ['Sonntag','Montag','Dienstag','Mittwoch',
+                'Donnerstag','Freitag','Samstag'][d.getDay()];
+    datumEl.textContent = `${wd}, ${d.toLocaleDateString('de-DE')}`;
+    uhrEl.textContent   = d.toLocaleTimeString('de-DE',
+                           {hour:'2-digit',minute:'2-digit'});
+  };
+  updateDateTime();
+  setInterval(updateDateTime, 60_000);
+
+  /* d) Wetter */
+  const weatherEl = document.getElementById('weather');
+  async function updateWeather(){
+    try{
+      const res = await fetch(
+        'https://api.open-meteo.com/v1/forecast?latitude=49.201&longitude=7.605&current=temperature_2m'
+      );
+      const data = await res.json();
+      weatherEl.textContent = `Wetter: ${Math.round(data.current.temperature_2m)} °C`;
+    }catch(err){
+      console.error('Wetterdaten fehlgeschlagen', err);
+      weatherEl.textContent = 'Wetter: -- °C';
+    }
+  }
+  updateWeather();
+  setInterval(updateWeather, 1*60*1000);   // alle 15 Minuten
+});
+</script>
+
 </body>
 </html>
