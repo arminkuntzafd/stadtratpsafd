@@ -73,3 +73,104 @@
     .submenu a {
       color:#fff;
       text-decoration:none;
+      padding:8px 12px;
+      font-size:13px;
+      white-space:nowrap;
+      display:block;
+    }
+    .submenu a:hover {background:#002040;}
+    .submenu.open {display:flex;}
+
+    /* ---------- Inhalt ---------- */
+    main {padding:20px;}
+    section {display:none;}
+    section.active {display:block;}
+    section h2 {margin-bottom:10px;}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+      </div>
+      <div class="title">AfD Stadtrat Pirmasens</div>
+      <div class="info-box">
+        <div>Mi, 18.06.2025</div>
+        <div>18°C, sonnig</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a class="nav-link" data-section="start">Start</a>
+
+      <div class="dropdown">
+        <span class="dropdown-toggle">Fraktion</span>
+        <div class="submenu">
+          <a data-section="fraktion">Mitglieder</a>
+          <a data-section="ausschuesse">Ausschüsse</a>
+        </div>
+      </div>
+
+      <a class="nav-link" data-section="blog">Blog</a>
+      <a class="nav-link" data-section="kontakt">Kontakt</a>
+    </div>
+  </nav>
+
+  <!-- SECTIONS -->
+  <main>
+    <section id="start" class="active">
+      <h2>Willkommen</h2>
+      <p>Startseiten-Inhalte …</p>
+    </section>
+
+    <section id="fraktion">
+      <h2>Fraktion</h2>
+      <iframe src="https://afd-pirmasens-stadtrat.de/fraktion/" width="100%" height="600" style="border:none;"></iframe>
+    </section>
+
+    <section id="ausschuesse">
+      <h2>Ausschüsse</h2>
+      <iframe src="https://afd-pirmasens-stadtrat.de/ausschuesse/" width="100%" height="600" style="border:none;"></iframe>
+    </section>
+
+    <section id="blog">
+      <h2>Blog</h2>
+      <p>Blog-Inhalte …</p>
+    </section>
+
+    <section id="kontakt">
+      <h2>Kontakt</h2>
+      <p>Kontaktformular …</p>
+    </section>
+  </main>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.addEventListener("click", e => {
+      const toggle = e.target.closest(".dropdown-toggle");
+      if (toggle) {
+        toggle.nextElementSibling.classList.toggle("open");
+        e.stopPropagation();
+        return;
+      }
+
+      const link = e.target.closest("[data-section]");
+      if (link) {
+        const section = link.dataset.section;
+        document.querySelectorAll("main section")
+          .forEach(s => s.classList.toggle("active", s.id === section));
+        document.querySelectorAll(".submenu").forEach(sm => sm.classList.remove("open"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.querySelectorAll(".submenu").forEach(sm => sm.classList.remove("open"));
+      }
+    });
+  </script>
+</body>
+</html>
