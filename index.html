@@ -90,6 +90,26 @@
 
     /* Footer‑Jahr aktualisieren */
     document.getElementById('year').textContent = new Date().getFullYear();
+  
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Klick auf Nav-Links mit data-section
+    document.body.addEventListener("click", e => {
+      const link = e.target.closest("a[data-section]");
+      if (!link) return;
+
+      e.preventDefault();
+      const sectionId = link.dataset.section;
+      document.querySelectorAll("main section").forEach(s => {
+        s.style.display = (s.id === sectionId) ? "block" : "none";
+      });
+    });
+
+    // Start-Ansicht initial anzeigen
+    const start = document.querySelector("main section#start");
+    if (start) start.style.display = "block";
+  });
+  
   </script>
 </body>
 </html>
