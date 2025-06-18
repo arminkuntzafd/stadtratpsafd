@@ -1,18 +1,22 @@
-<!-- nav.html -->
+<!-- nav.html – schlank & funktionsfähig -->
 <nav class="main-nav">
   <div class="nav-inner">
-    <div class="nav-link"><a href="index.html">Start</a></div>
+
+    <!-- Startseite -->
+    <a class="nav-link" data-section="start">Start</a>
+
+    <!-- Dropdown: Fraktion -->
     <div class="nav-link dropdown">
-      <div class="nav-link dropdown">
       <span class="dropdown-toggle">Fraktion ▾</span>
       <div class="submenu">
         <a data-section="fraktion">Mitglieder</a>
         <a data-section="ausschuesse">Ausschüsse</a>
       </div>
     </div>
-    </div>
-    <div class="nav-link"><a href="blog.html">Blog</a></div>
-    <div class="nav-link"><a href="kontakt.html">Kontakt</a></div>
+
+    <!-- Blog & Kontakt -->
+    <a class="nav-link" data-section="blog">Blog</a>
+    <a class="nav-link" data-section="kontakt">Kontakt</a>
+
   </div>
 </nav>
-
