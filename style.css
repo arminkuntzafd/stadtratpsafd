@@ -172,3 +172,27 @@ nav.main-nav{
 body{
   padding-top: 60px;            /* exakt dieselbe Höhe wie oben */
 }
+/* fixiere den Container selbst */
+#nav-container{
+  position: fixed;      /* bleibt am Viewport */
+  top: 60px;            /* direkt UNTER deinem Header (Header‑Höhe anpassen) */
+  left: 0;
+  width: 100%;
+  z-index: 2000;        /* über Content, unter Modals */
+}
+
+/* falls Header ebenfalls fixiert ist ‑ sonst top:0 setzen */
+
+/* fixiere den Container selbst */
+#nav-container{
+  position: fixed;      /* bleibt am Viewport */
+  top: 60px;            /* direkt UNTER deinem Header (Header‑Höhe anpassen) */
+  left: 0;
+  width: 100%;
+  z-index: 2000;        /* über Content, unter Modals */
+}
+
+body{
+  padding-top: calc(60px + 48px);  /* Header‑Höhe + Nav‑Höhe */
+}
+
