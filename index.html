@@ -1,139 +1,75 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Demo – Navigation mit Sections</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AfD Stadtrat Pirmasens</title>
   <style>
-    /* ---------- Layout & Reset ---------- */
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:Arial, sans-serif;}
+    body{font-family:Arial,sans-serif;}
+
+    /* ---------- Header ---------- */
+    header.main-header {
+      background:#005599;
+      color:#fff;
+      padding:10px 20px;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+    .header-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .logo img {height:50px;}
+    .title {font-size:1.8em;flex:1;text-align:center;font-weight:bold;}
+    .info-box {
+      min-width:150px;
+      text-align:right;
+      font-size:0.9em;
+      line-height:1.2em;
+    }
 
     /* ---------- Navigation ---------- */
-    nav.main-nav{
-      background:#005599;
-      position:sticky;top:0;z-index:1000;
+    nav.main-nav {
+      background:#004080;
+    }
+    .nav-inner {
+      display:flex;
+      gap:15px;
+      align-items:center;
+      height:48px;
       padding:0 12px;
     }
-    .nav-inner{
-      display:flex;gap:15px;align-items:center;height:48px;
+    .nav-link, .dropdown-toggle {
+      color:#fff;
+      text-decoration:none;
+      padding:0 10px;
+      line-height:48px;
+      font-size:14px;
+      white-space:nowrap;
+      cursor:pointer;
+      border-radius:3px;
     }
-    .nav-link,.dropdown-toggle{            /* Hauptlinks */
-      color:#fff;text-decoration:none;
-      padding:0 10px;line-height:48px;
-      font-size:14px;white-space:nowrap;
-      cursor:pointer;border-radius:3px;
-    }
-    .nav-link:hover,.dropdown-toggle:hover{background:#004080;}
-
-    /* Dropdown */
-    .dropdown{position:relative;}
-    .dropdown-toggle::after{content:" ▾";font-size:11px;}
-    .submenu{
-      display:none;position:absolute;top:48px;left:0;
-      background:#004080;border-radius:3px;
-      min-width:160px;box-shadow:0 4px 8px rgba(0,0,0,.3);
-      flex-direction:column;z-index:1001;
-    }
-    .submenu a{
-      color:#fff;text-decoration:none;font-size:13px;
-      padding:8px 12px;white-space:nowrap;
-    }
-    .submenu a:hover{background:#003060;}
-    .submenu.open{display:flex;}
-
-    /* ---------- Sections ---------- */
-    main{padding:20px;}
-    main section{display:none;}            /* alles versteckt */
-    main section.active{display:block;}    /* nur aktive sichtbar */
-    main h2{margin-bottom:10px;}
-  </style>
-</head>
-<body>
-
-  <!-- Navigation -->
-  <nav class="main-nav">
-    <div class="nav-inner">
-
-      <a class="nav-link" data-section="start">Start</a>
-
-      <div class="dropdown">
-        <span class="dropdown-toggle">Fraktion</span>
-        <div class="submenu">
-          <a data-section="fraktion">Mitglieder</a>
-          <a data-section="ausschuesse">Ausschüsse</a>
-        </div>
-      </div>
-
-      <a class="nav-link" data-section="blog">Blog</a>
-      <a class="nav-link" data-section="kontakt">Kontakt</a>
-
-    </div>
-  </nav>
-
-  <!-- Inhalt -->
-  <main>
-    <section id="start" class="active">
-      <h2>Startseite</h2>
-      <p>Willkommen …</p>
-    </section>
-
-    <section id="fraktion">
-      <h2>Fraktion – Mitglieder</h2>
-      <p>Hier steht später dein Iframe.</p>
-    </section>
-
-    <section id="ausschuesse">
-      <h2>Ausschüsse</h2>
-      <p>Auch hier ggf. ein Iframe.</p>
-    </section>
-
-    <section id="blog">
-      <h2>Blog</h2>
-      <p>Blog‑Inhalte …</p>
-    </section>
-
-    <section id="kontakt">
-      <h2>Kontakt</h2>
-      <p>Kontaktformular …</p>
-    </section>
-  </main>
-
-  <!-- ---------- JavaScript ---------- -->
-  <script>
-    /* Click‑Delegation für ganze Seite */
-    document.addEventListener('click', e=>{
-      /* Dropdown‑Toggle */
-      const toggle = e.target.closest('.dropdown-toggle');
-      if(toggle){
-        const menu = toggle.nextElementSibling;
-        menu.classList.toggle('open');
-        e.stopPropagation();              // Klick nicht weiterreichen
-        e.preventDefault();
-        return;
-      }
-      /* Link zu Section */
-      const link = e.target.closest('[data-section]');
-      if(link){
-        e.preventDefault();
-        showSection(link.dataset.section);
-        closeAllDropdowns();
-      }else{
-        closeAllDropdowns();              // Klick ausserhalb → Dropdown zu
-      }
-    });
-
-    function closeAllDropdowns(){
-      document.querySelectorAll('.submenu.open')
-              .forEach(sm=>sm.classList.remove('open'));
+    .nav-link:hover, .dropdown-toggle:hover {
+      background:#003060;
     }
 
-    function showSection(id){
-      document.querySelectorAll('main section')
-              .forEach(sec=>sec.classList.toggle('active', sec.id===id));
-      window.scrollTo({top:0,behavior:'smooth'});
+    .dropdown {position:relative;}
+    .dropdown-toggle::after {content:" ▾";font-size:11px;}
+    .submenu {
+      display:none;
+      position:absolute;
+      top:48px;
+      left:0;
+      background:#003060;
+      border-radius:3px;
+      min-width:160px;
+      flex-direction:column;
+      z-index:1001;
+      box-shadow:0 4px 8px rgba(0,0,0,.3);
     }
-  </script>
-</body>
-</html>
+    .submenu a {
+      color:#fff;
+      text-decoration:none;
