@@ -1,21 +1,54 @@
-<nav style="background:#005599; padding:5px 10px; display:flex; gap:8px; position:sticky; top:0; z-index:1000;">
-    <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; line-height:1; font-size:14px; display:inline-block;">Start</a>
-    <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; line-height:1; font-size:14px; display:inline-block;">Fraktion</a>
-    <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; line-height:1; font-size:14px; display:inline-block;">Ausschüsse</a>
-    <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; line-height:1; font-size:14px; display:inline-block;">Kontakt</a>
-</nav>
-<nav class="main-nav">
-  <div class="nav-inner">
-    <div class="nav-link"><a href="index.html">Start</a></div>
-    
-    </div>
-    <div class="nav-link dropdown">
-      <a href="#" class="dropdown-toggle">Fraktion ▾</a>
-      <div class="submenu">
-        <a href="#" data-section="fraktion">Mitglieder</a>
-        <a href="#" data-section="ausschüsse">Ausschüsse</a>
-      </div>
+<nav style="background:#005599; padding:5px 10px; display:flex; gap:8px; position:sticky; top:0; z-index:1000; align-items:center; font-family:Arial, sans-serif;">
+  <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; font-size:14px;">Start</a>
+
+  <div style="position:relative;">
+    <a href="#" class="dropdown-toggle" style="color:#fff; text-decoration:none; padding:8px 12px; font-size:14px; cursor:pointer; user-select:none;">
+      Fraktion ▾
+    </a>
+    <div class="submenu" style="
+      display:none;
+      position:absolute;
+      top:100%;
+      left:0;
+      background:#004080;
+      min-width:120px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.3);
+      border-radius:3px;
+      padding:5px 0;
+      ">
+      <a href="#" data-section="fraktion" style="display:block; padding:5px 10px; color:#fff; text-decoration:none; font-size:13px;">Mitglieder</a>
+      <a href="#" data-section="ausschuesse" style="display:block; padding:5px 10px; color:#fff; text-decoration:none; font-size:13px;">Ausschüsse</a>
     </div>
   </div>
+
+  <a href="#" style="color:#fff; text-decoration:none; padding:8px 12px; font-size:14px;">Kontakt</a>
 </nav>
 
+<script>
+  // Dropdown Toggle
+  document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const submenu = btn.nextElementSibling;
+      submenu.style.display = (submenu.style.display === 'block') ? 'none' : 'block';
+    });
+  });
+
+  // Optional: Klick außerhalb schließt das Menü
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.dropdown-toggle')) {
+      document.querySelectorAll('.submenu').forEach(sm => sm.style.display = 'none');
+    }
+  });
+
+  // Navigation Section Wechsel (optional)
+  document.querySelectorAll('.submenu a[data-section]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const sectionId = link.dataset.section;
+      document.querySelectorAll('main section').forEach(sec => {
+        sec.style.display = (sec.id === sectionId) ? 'block' : 'none';
+      });
+    });
+  });
+</script>
