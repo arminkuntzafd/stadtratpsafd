@@ -3,7 +3,118 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Versteckt alle Sections */
+/* Versteckt alle Sections *//* ────────── Grundlayout & Reset ────────── */
+*      { box-sizing: border-box; margin: 0; padding: 0; }
+body   { font-family: Arial, sans-serif; line-height: 1.6; }
+
+/* Variablen für feste Höhen */
+:root{
+  --header-h: 0px;   /* fixe Header‑Höhe, 0 wenn Header nicht fixiert */
+  --nav-h:    60px;  /* Höhe der Navigationsleiste */
+}
+
+/* Platz für fixe Leisten schaffen */
+body{
+  padding-top: calc(var(--header-h) + var(--nav-h));
+}
+
+/* ────────── Section‑Logik (Single‑Page) ────────── */
+main section          { display: none; }
+main section.active   { display: block; }
+
+/* ────────── Fixierte Navigation ────────── */
+nav.main-nav{
+  position: fixed !important;      /* zwingend fixiert */
+  top: var(--header-h);            /* direkt unter evtl. fixem Header */
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: #005599;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+  color: #fff;
+}
+
+/* Inhalt der Nav */
+.nav-inner{
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Hauptlinks & Dropdown‑Trigger */
+.nav-link,
+.dropdown-toggle{
+  color: #fff;
+  text-decoration: none;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: var(--nav-h);
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+.nav-link:hover,
+.dropdown-toggle:hover{
+  background:#004080;
+}
+
+/* ────────── Dropdown ────────── */
+.dropdown{ position: relative; }
+.dropdown-toggle::after{ content:" ▾"; font-size:11px; }
+
+.submenu{
+  position: absolute;
+  top: 100%; left: 0;
+  background:#004080;
+  display: none;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.3);
+  border-radius: 3px;
+  z-index: 3100;
+}
+.submenu a{
+  color:#fff;
+  text-decoration:none;
+  padding: 10px 15px;
+  font-size:13px;
+  white-space: nowrap;
+}
+.submenu a:hover{ background:#003060; }
+
+/* Dropdown sichtbar bei Hover oder offener Klasse */
+.dropdown:hover .submenu,
+.dropdown:focus-within .submenu,
+.submenu.open{
+  display:flex;
+}
+
+/* ────────── Header (optional fixierbar) ────────── */
+.main-header{
+  background:#005599;
+  color:#fff;
+  padding:10px 20px;
+  /* Wenn Header fixiert sein soll, einfach einkommentieren:
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3100;
+  */
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo img{ height:50px; }
+.title{ font-size:1.8em; font-weight:bold; flex:1; text-align:center; }
+.info-box{ font-size:0.9em; line-height:1.2em; text-align:right; min-width:150px; }
+
 main section { display:none; }
 
 /* Die aktuell gewählte Section zeigt sich */
