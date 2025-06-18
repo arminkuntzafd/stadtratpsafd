@@ -1,65 +1,139 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AfD Stadtrat Pirmasens</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo – Navigation mit Sections</title>
+
+  <style>
+    /* ---------- Layout & Reset ---------- */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:Arial, sans-serif;}
+
+    /* ---------- Navigation ---------- */
+    nav.main-nav{
+      background:#005599;
+      position:sticky;top:0;z-index:1000;
+      padding:0 12px;
+    }
+    .nav-inner{
+      display:flex;gap:15px;align-items:center;height:48px;
+    }
+    .nav-link,.dropdown-toggle{            /* Hauptlinks */
+      color:#fff;text-decoration:none;
+      padding:0 10px;line-height:48px;
+      font-size:14px;white-space:nowrap;
+      cursor:pointer;border-radius:3px;
+    }
+    .nav-link:hover,.dropdown-toggle:hover{background:#004080;}
+
+    /* Dropdown */
+    .dropdown{position:relative;}
+    .dropdown-toggle::after{content:" ▾";font-size:11px;}
+    .submenu{
+      display:none;position:absolute;top:48px;left:0;
+      background:#004080;border-radius:3px;
+      min-width:160px;box-shadow:0 4px 8px rgba(0,0,0,.3);
+      flex-direction:column;z-index:1001;
+    }
+    .submenu a{
+      color:#fff;text-decoration:none;font-size:13px;
+      padding:8px 12px;white-space:nowrap;
+    }
+    .submenu a:hover{background:#003060;}
+    .submenu.open{display:flex;}
+
+    /* ---------- Sections ---------- */
+    main{padding:20px;}
+    main section{display:none;}            /* alles versteckt */
+    main section.active{display:block;}    /* nur aktive sichtbar */
+    main h2{margin-bottom:10px;}
+  </style>
 </head>
 <body>
 
-  <div id="header-container"></div>
-  <div id="nav-container"></div>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-inner">
 
+      <a class="nav-link" data-section="start">Start</a>
+
+      <div class="dropdown">
+        <span class="dropdown-toggle">Fraktion</span>
+        <div class="submenu">
+          <a data-section="fraktion">Mitglieder</a>
+          <a data-section="ausschuesse">Ausschüsse</a>
+        </div>
+      </div>
+
+      <a class="nav-link" data-section="blog">Blog</a>
+      <a class="nav-link" data-section="kontakt">Kontakt</a>
+
+    </div>
+  </nav>
+
+  <!-- Inhalt -->
   <main>
-    <h1>Willkommen bei der AfD im Stadtrat Pirmasens</h1>
-    <p>Inhalt der Startseite ...</p>
+    <section id="start" class="active">
+      <h2>Startseite</h2>
+      <p>Willkommen …</p>
+    </section>
+
+    <section id="fraktion">
+      <h2>Fraktion – Mitglieder</h2>
+      <p>Hier steht später dein Iframe.</p>
+    </section>
+
+    <section id="ausschuesse">
+      <h2>Ausschüsse</h2>
+      <p>Auch hier ggf. ein Iframe.</p>
+    </section>
+
+    <section id="blog">
+      <h2>Blog</h2>
+      <p>Blog‑Inhalte …</p>
+    </section>
+
+    <section id="kontakt">
+      <h2>Kontakt</h2>
+      <p>Kontaktformular …</p>
+    </section>
   </main>
 
-<main style="padding:20px;">
-  <!-- Kurzinfo auf der Startseite ... -->
-
-  <section id="fraktion" style="margin-top:40px;">
-     <iframe
-      src="https://afd-pirmasens-stadtrat.de/fraktion/"
-      width="100%"
-      height="800"
-      style="border:none;">
-    </iframe>
-  </section>
-  
-<section id="ausschuesse" style="margin-top:40px;">
-     <iframe
-      src="https://afd-pirmasens-stadtrat.de/aufsichtsrat/"
-      width="100%"
-      height="800"
-      style="border:none;">
-    </iframe>
-  </section>
-
-</main>
-
-
-  
+  <!-- ---------- JavaScript ---------- -->
   <script>
-    async function loadFragment(file, targetId) {
-      const res = await fetch(file);
-      const html = await res.text();
-      document.getElementById(targetId).innerHTML = html;
+    /* Click‑Delegation für ganze Seite */
+    document.addEventListener('click', e=>{
+      /* Dropdown‑Toggle */
+      const toggle = e.target.closest('.dropdown-toggle');
+      if(toggle){
+        const menu = toggle.nextElementSibling;
+        menu.classList.toggle('open');
+        e.stopPropagation();              // Klick nicht weiterreichen
+        e.preventDefault();
+        return;
+      }
+      /* Link zu Section */
+      const link = e.target.closest('[data-section]');
+      if(link){
+        e.preventDefault();
+        showSection(link.dataset.section);
+        closeAllDropdowns();
+      }else{
+        closeAllDropdowns();              // Klick ausserhalb → Dropdown zu
+      }
+    });
+
+    function closeAllDropdowns(){
+      document.querySelectorAll('.submenu.open')
+              .forEach(sm=>sm.classList.remove('open'));
     }
 
-    async function init() {
-      await loadFragment("header.html", "header-container");
-      await loadFragment("nav.html", "nav-container");
-      document.querySelectorAll(".dropdown-toggle").forEach(btn => {
-        btn.addEventListener("click", e => {
-          e.preventDefault();
-          btn.nextElementSibling.classList.toggle("open");
-        });
-      });
+    function showSection(id){
+      document.querySelectorAll('main section')
+              .forEach(sec=>sec.classList.toggle('active', sec.id===id));
+      window.scrollTo({top:0,behavior:'smooth'});
     }
-
-    init();
   </script>
 </body>
 </html>
