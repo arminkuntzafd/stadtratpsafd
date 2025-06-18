@@ -154,3 +154,22 @@ body {
 .dropdown:focus-within .submenu {
   display: flex;
 }
+/* GANZ AM ENDE von style.css einfügen  ─  oder nach allen anderen Nav‑Regeln */
+nav.main-nav{
+  position: fixed !important;   /*  !important = überstimmt frühere Angaben   */
+  top: 0;
+  left: 0;
+  right: 0;                     /* volle Breite */
+  height: 60px;                 /* deine tatsächliche Nav‑Höhe */
+  z-index: 2000;                /* sicher über Content & Header */
+  background: #005599;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+/* Damit der Seiteninhalt nicht unter die fixe Nav rutscht */
+body{
+  padding-top: 60px;            /* exakt dieselbe Höhe wie oben */
+}
