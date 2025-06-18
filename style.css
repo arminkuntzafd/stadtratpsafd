@@ -1,30 +1,38 @@
-body {
+/* Reset */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Navigation Grundstruktur */
 .main-nav {
   background: #005599;
   color: white;
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 48px;               /* kompakte Höhe */
+
+  height: 40px;            /* noch kleiner */
+  line-height: 40px;       /* vertikale Zentrierung */
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .nav-inner {
   display: flex;
-  gap: 8px;                  /* sehr kleine Abstände zwischen Links */
-  padding: 0 10px;           /* wenig horizontaler Innenabstand */
+  gap: 6px;                /* ganz kleine Abstände */
+  padding: 0 8px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   align-items: center;
-  flex-wrap: nowrap;         /* keine Umbrüche */
-  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .nav-link {
@@ -35,14 +43,16 @@ body {
   display: inline-block;
   color: white;
   text-decoration: none;
-  padding: 6px 8px;          /* sehr kompakte Polsterung */
+  padding: 0 6px;          /* kein vertikales Padding mehr */
   font-size: 13px;
-  line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
   border-radius: 2px;
+  height: 40px;
+  line-height: 40px;       /* Link komplett hoch wie navbar */
   transition: background-color 0.3s ease;
-  margin: 0;                 /* kein zusätzlicher Außenabstand */
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .nav-link > a:hover {
@@ -60,7 +70,7 @@ body {
 .submenu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: 40px;
   left: 0;
   background: #004080;
   border-radius: 3px;
@@ -89,11 +99,4 @@ body {
 .dropdown:hover > .submenu,
 .dropdown:focus-within > .submenu {
   display: flex;
-}
-
-/* Optional: fix für margin oder padding außerhalb */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
