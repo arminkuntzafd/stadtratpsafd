@@ -109,7 +109,26 @@
     const start = document.querySelector("main section#start");
     if (start) start.style.display = "block";
   });
-  
+   /* Jetzt erst Datum/Uhrzeit initialisieren */
+    const datumEl  = document.getElementById('datum');
+    const uhrEl    = document.getElementById('uhrzeit');
+
+    function updateDateTime(){
+      const d    = new Date();
+      const wd   = ['Sonntag','Montag','Dienstag','Mittwoch',
+                    'Donnerstag','Freitag','Samstag'][d.getDay()];
+      const tag  = String(d.getDate()).padStart(2,'0');
+      const mon  = String(d.getMonth()+1).padStart(2,'0');
+      const yr   = d.getFullYear();
+      datumEl.textContent = `${wd}, ${tag}.${mon}.${yr}`;
+
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      uhrEl.textContent   = `${hh}:${mm}`;
+    }
+    updateDateTime();
+    setInterval(updateDateTime,60_000);
+  });
   </script>
 </body>
 </html>
